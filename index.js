@@ -50,17 +50,17 @@ var pool = new Pool(config)
 
 // ========================================== Setup Firebase =================
 var admin = require("firebase-admin");
-var serviceAccount = require("./resepv2-d3f60-firebase-adminsdk-e95wy-bd57a737c5.json");
+var serviceAccount = require("./resepv2-firebase-adminsdk-4yor8-13e1acc2e3.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://resepv2-d3f60.firebaseio.com"
+  databaseURL: "https://resepv2.firebaseio.com"
 });
 
 
 var firebase = require("firebase");
 firebase.initializeApp({
-    apiKey: " AIzaSyCUgo5_dMpN03C6ZsiAlS-kjEZH1RkE9_4",
-    databaseURL: "https://resepv2-d3f60.firebaseio.com"
+    apiKey: "AIzaSyDGfhhH2hdSICx-99895rjpsckloQOgdQo",
+    databaseURL: "https://resepv2.firebaseio.com"
 });
 
 
