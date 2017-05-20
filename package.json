@@ -13,6 +13,11 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
+    "firebase": "^3.9.0",
+    "firebase-admin": "^4.2.1",
     "pg": "^6.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
