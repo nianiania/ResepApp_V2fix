@@ -72,7 +72,19 @@ firebase.initializeApp({
 // =========================================== Routing ========================
 app.route('/')
     .get(function(req, res) {
-        res.render('home')
+        pool.query('SELECT * from resep')
+            .then((result) => {
+                var hasil = result.rows
+                console.log('Hasil:', hasil);
+
+                res.render('home', {
+                    data: hasil 
+                })
+            })
+            .catch((err) => {
+                console.error('error running query', err);
+            });
+
         // Check Cookies
         console.log('Cookies: ', req.cookies) 
     })
@@ -190,6 +202,30 @@ app.route('/admin')
     })
     .post(function(req, res) {
         
+    })
+
+
+
+
+app.route('/delete_resep')
+    .get(function(req, res){
+        var ID = req.query.id
+        console.log('ID: ', ID)
+
+        pool.query('DELETE FROM resep WHERE id=($1)', [ID])
+            .then((result) => {
+                var hasil = result.rows
+                console.log('number:', hasil);
+
+                res.redirect('/admin')
+            })
+            .catch((err) => {
+                console.error('error running query', err);
+            });
+
+    })
+    .post(function(req, res){
+
     })
 
 
