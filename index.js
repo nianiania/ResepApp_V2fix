@@ -167,6 +167,7 @@ app.route('/signin')
 
 app.route('/signout')
     .get(function(req, res) {
+       
 
     })
     .post(function(req, res) { 
