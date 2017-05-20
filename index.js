@@ -66,45 +66,15 @@ firebase.initializeApp({
 
 
 
-
-
 // =========================================== Routing ========================
 app.route('/')
     .get(function(req, res) {
         res.render('home')
-        // pool.query('SELECT * from resep')
-        //     .then((result) => {
-        //         var hasil = result.rows
-        //         console.log('number:', hasil);
-
-        //         res.render('resep', {
-        //             data: hasil,
-        //             judul: 'Rsep App with NodeJS'
-        //         })
-        //     })
-        //     .catch((err) => {
-        //         console.error('error running query', err);
-        //     });
+        // Check Cookies
+        console.log('Cookies: ', req.cookies) 
     })
     .post(function(req, res) {
-        // var id = req.body.id
-        // var nama_resep = req.body.nama_resep
-        // var deskripsi = req.body.deskripsi
-        // var penulis = req.body.penulis
-        // var cara_pembuatan = req.body.cara_pembuatan
-
-        // console.log(id + ' ' + nama_resep + ' ' + deskripsi + ' ' + penulis + ' ' + cara_pembuatan)
-
-        // var query_post = 'insert into resep(id, nama_resep, deskripsi, penulis, cara_pembuatan)' + 'values($1, $2, $3, $4, $5)'
-
-        // pool.query(query_post, [id, nama_resep, deskripsi, penulis, cara_pembuatan])
-        //     .then((result) => {
-        //         console.log('success insert data:', result);
-        //         res.redirect('/')
-        //     })
-        //     .catch((err) => {
-        //         console.log('error running query', err);
-        //     })
+         
     })
 
  
@@ -167,14 +137,60 @@ app.route('/signup')
     })
 
 
+
+
 app.route('/signin')
     .get(function(req, res) {
         res.render('signin');
-
     })
     .post(function(req, res) {
-        
+        var email = req.body.email
+        var password = req.body.password
+        var remember = req.body.remember
+        var expired = 6000 * 10000
+
+        console.log(email + ' ' + password + ' ' + remember)
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function(result) {
+                console.log('Success auth: ', result.email);
+                res.cookie('uid_token', result.uid, { maxAge: expired }); 
+                // res.redirect('/');
+                res.send("sukses login");
+            }).catch(function(error) {
+                console.log("Error Loggin In User :", error.message); 
+            });
     })
+
+
+
+
+app.route('/signout')
+    .get(function(req, res) {
+
+    })
+    .post(function(req, res) { 
+        console.log(req.cookies.uid_token)
+
+        firebase.auth().signOut()
+            .then(() => {
+                console.log('Successfully Signout ');
+                res.clearCookie('uid_token');
+                res.redirect('/');
+            }, (error) => {
+                console.log(error);
+            })
+    })
+
+
+
+
+app.route('/clear_cookies')
+    .get(function(req, res, next) {
+        res.clearCookie('uid_token')
+        res.json({ message: 'success clear cookies' })
+    });
+
 
 
   
